@@ -16,6 +16,7 @@
     posixfs: "{{ item.value.posixfs | default(omit) }}"
     glusterfs: "{{ item.value.glusterfs | default(omit) }}"
     fcp: "{{ item.value.fcp | default(omit) }}"
+    override_luns: "{{ item.value.override_luns | default(omit) }}"
   with_dict: "{{ storages | default({}) }}"
   when: item.value.master is defined and item.value.master
   tags:
@@ -35,6 +36,7 @@
     posixfs: "{{ item.value.posixfs | default(omit) }}"
     glusterfs: "{{ item.value.glusterfs | default(omit) }}"
     fcp: "{{ item.value.fcp | default(omit) }}"
+    override_luns: "{{ item.value.override_luns | default(omit) }}"
   with_dict: "{{ storages | default({}) }}"
   when: item.value.domain_function is not defined
   tags:
