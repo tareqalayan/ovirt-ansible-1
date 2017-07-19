@@ -55,6 +55,10 @@ The role has dependencies on multiple other oVirt roles. The following list disp
 
  This role accepts a variable called `permissions`. 
 
+From [ovirt-external-providers]
+
+This role accepts a list called `external_providers`, which contains information about the external provider. To see example of this list please check the role's documentation.
+
 Dependencies
 ------------
 
@@ -66,6 +70,7 @@ Dependencies
  * [ovirt-aaa-jdbc]
  * [ovirt-permissions]
  * [ovirt-mac-pools]
+ * [ovirt-external-providers]
 
 Example Playbook
 ----------------
@@ -189,6 +194,16 @@ Example Playbook
         object_type: cluster
         object_name: production
 
+     external_providers:
+       - name: myglance
+         type: os_image
+         state: present
+         url: http://externalprovider.example.com:9292
+         username: admin
+         password: secret
+         tenant: admin
+         auth_url: http://externalprovider.example.com:35357/v2.0/
+
   pre_tasks:
     - name: Login to oVirt
       ovirt_auth:
@@ -227,3 +242,4 @@ Apache License 2.0
 [ovirt-permissions]: https://github.com/oVirt/ovirt-ansible/blob/master/roles/ovirt-permissions/README.md
 [ovirt-storages]: https://github.com/oVirt/ovirt-ansible/blob/master/roles/ovirt-storages/README.md
 [ovirt-mac-pools]: https://github.com/oVirt/ovirt-ansible/blob/master/roles/ovirt-mac-pools/README.md
+[ovirt-external-providers]: https://github.com/oVirt/ovirt-ansible/blob/master/roles/ovirt-external-providers/README.md
