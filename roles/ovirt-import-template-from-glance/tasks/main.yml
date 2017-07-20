@@ -1,0 +1,65 @@
+---
+#################################################
+# import template from glance and add nic
+#################################################
+- name: Import templates from glance
+  ovirt_templates:
+    auth: "{{ ovirt_auth }}"
+    state: imported
+    name: "{{ item.name }}"
+    image_provider: "{{ item.image_provider }}"
+    image_disk: "{{ item.image_disk }}"
+    storage_domain: "{{ item.storage_domain }}"
+    cluster: "{{ item.cluster }}"
+    fetch_nested: True
+  register: templates
+  with_items:
+    - "{{ external_templates | default([]) }}"
+  tags:
+    - external_templates
+
+- name: test add nic to template
+  ovirt_nics:
+    auth: "{{ ovirt_auth }}"
+    state: present
+    template: "{{ item.name }}"
+    name: nic1
+    profile: ovirtmgmt
+    network: ovirtmgmt
+  with_items:
+    - "{{ external_templates | default([]) }}"
+  tags:
+    - external_template
+    - add_nic
+
+- name: get imported templates facts
+  ovirt_templates_facts:
+    auth: "{{ ovirt_auth }}"
+    pattern: name="{{ item.name }}"*
+    fetch_nested: true
+  register: imported_templates
+  with_items:
+    - "{{ external_templates | default([]) }}"
+  tags:
+    - external_templates
+
+- name: debug
+  debug:
+    msg: "{{ item }}"
+    verbosity: 2
+  with_items:
+    - "{{ imported_templates.results }}"
+
+- name: copy template disks to all storage domain defined in destination_domains
+  ovirt_disks:
+    auth: "{{ ovirt_auth }}"
+    id: "{{ item[0].ansible_facts.ovirt_templates[0].disk_attachments[0].id[0] }}"
+    storage_domains:  "{{ item[1] }}"
+    fetch_nested: true
+    timeout: 600
+  with_nested:
+    - "{{ imported_templates.results }}"
+    - "{{ destination_domains }}"
+  tags:
+    - external_templates
+    - copy_template_disks
