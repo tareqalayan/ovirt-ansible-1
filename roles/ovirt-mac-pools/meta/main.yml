@@ -1,6 +1,6 @@
 galaxy_info:
-  author: Ondra Machacek
-  description: Role to manage oVirt infrastructure.
+  author: Tareq Alayan
+  description: Role to manage mac pools in oVirt.
   company: Red Hat, Inc.
 
   license: Apache License 2.0
@@ -18,12 +18,4 @@ galaxy_info:
 
   galaxy_tags: [ovirt, rhv, rhev, virtualization]
 
-dependencies:
-  - ovirt-mac-pools
-  - ovirt-datacenters
-  - ovirt-clusters
-  - ovirt-hosts
-  - ovirt-networks
-  - ovirt-storages
-  - ovirt-aaa-jdbc
-  - ovirt-permissions
+dependencies: []

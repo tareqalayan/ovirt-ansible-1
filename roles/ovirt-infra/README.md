@@ -21,7 +21,11 @@ The role has dependencies on multiple other oVirt roles. The following list disp
  - `data_center_description`
  - `data_center_local`
  - `compatibility_version`
- 
+
+* [ovirt-mac-pools]:
+
+ This role accepts a variable called `mac_pool_ranges`, `mac_pool_allow_duplicates` and `mac_pool_name`.
+
 * [ovirt-clusters]:
 
  This role accepts a variable called `clusters`. 
@@ -61,6 +65,7 @@ Dependencies
  * [ovirt-storages]
  * [ovirt-aaa-jdbc]
  * [ovirt-permissions]
+ * [ovirt-mac-pools]
 
 Example Playbook
 ----------------
@@ -80,7 +85,12 @@ Example Playbook
      
      data_center_name: mydatacenter
      compatibility_version: 4.1
-     
+
+     mac_pool_name: my_mac_pool
+     mac_pool_ranges:
+       - 00:1a:4a:16:01:51,00:1a:4a:16:01:61
+     mac_pool_allow_duplicates: false
+
      clusters:
       - name: production
         cpu_type: Intel Conroe Family
@@ -216,3 +226,4 @@ Apache License 2.0
 [ovirt-networks]: https://github.com/oVirt/ovirt-ansible/blob/master/roles/ovirt-networks/README.md
 [ovirt-permissions]: https://github.com/oVirt/ovirt-ansible/blob/master/roles/ovirt-permissions/README.md
 [ovirt-storages]: https://github.com/oVirt/ovirt-ansible/blob/master/roles/ovirt-storages/README.md
+[ovirt-mac-pools]: https://github.com/oVirt/ovirt-ansible/blob/master/roles/ovirt-mac-pools/README.md

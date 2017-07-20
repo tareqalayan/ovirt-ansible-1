@@ -1,0 +1,12 @@
+---
+- name: set mac pool
+  ovirt_mac_pools:
+    auth: "{{ ovirt_auth }}"
+    name: "{{ mac_pool_name }}"
+    allow_duplicates: "{{ mac_pool_allow_duplicates | default(omit) }}"
+    ranges: "{{ mac_pool_ranges }}"
+  when:
+    - mac_pool_ranges is defined
+    - mac_pool_name is defined
+  tags:
+    - mac_pools
