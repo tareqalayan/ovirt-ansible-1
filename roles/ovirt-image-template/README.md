@@ -1,7 +1,7 @@
 oVirt Image Template
 ====================
 
-The `ovirt-image-template` role downloads a QCOW2 image from a specified URL and creates a template from it.
+The `ovirt-image-template` role creates a template from external image. Currently the disk can be a image in Glance external provider or QCOW2 image.
 
 Requirements
 ------------
@@ -15,7 +15,7 @@ Role Variables
 --------------
 
 | Name               | Default value         |                            |
-|--------------------|-----------------------|----------------------------| 
+|--------------------|-----------------------|----------------------------|
 | qcow_url           | UNDEF                 | The URL of the QCOW2 image. |
 | image_path         | /tmp/ovirt_image_data | Path where the QCOW2 image will be downloaded to. |
 | template_cluster   | Default               | Name of the cluster where template must be created. |
@@ -28,6 +28,18 @@ Role Variables
 | template_disk_interface | virtio           | Interface of the template disk. |
 | template_timeout   | 600                   | Amount of time to wait for the template to be created. |
 | template_nics      | {name: nic1, profile_name: ovirtmgmt, interface: virtio} | List of dictionaries that specify the NICs of template. |
+| external_templates   | UNDEF               | List of dictionaries that describes the templates |
+
+The `external_templates` list can contain the following parameters:
+
+| Name                  | Default value       | Description                             |
+|-----------------------------------|---------------------|-----------------------------------------|
+| name                  | UNDEF               | Name of the template to be imported.    |
+| image_provider        | present             | State of the external provider.                    |
+| image_disk            | UNDEF               | this parameter specifies the name of disk to be imported as template. |
+| profile               | UNDEF               | The cluster profile. You can choose a predefined cluster profile, see the tables below. |
+| storage_domain | UNDEF    | Name of the data storage domain where the disk must be created. |
+| cluster   | UNDEF               | Name of the cluster where template must be created. |
 
 Dependencies
 ------------
@@ -57,6 +69,18 @@ Example Playbook
     template_cpu: 2
     template_disk_size: 10GiB
     template_disk_storage: mydata
+
+    external_templates:
+      - name: mytemplate_74
+        image_provider: qe-infra-glance
+        image_disk: rhel7.4_ovirt4.2_guest_disk
+        storage_domain: nfs_0
+        cluster: cluster_1
+      - name: mytemplate_73
+        image_provider: qe-infra-glance
+        image_disk: rhel7.3_ovirt4.2_guest_disk
+        storage_domain: nfs_0
+        cluster: cluster_1
 
   roles:
     - ovirt-image-template

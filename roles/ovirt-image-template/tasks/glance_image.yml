@@ -1,0 +1,50 @@
+---
+- block:
+  - name: Login to oVirt
+    ovirt_auth:
+      url: "{{ engine_url }}"
+      username: "{{ engine_user }}"
+      password: "{{ engine_password }}"
+      ca_file: "{{ engine_cafile | default(omit) }}"
+      insecure: "{{ engine_insecure | default(true) }}"
+    when: ovirt_auth is undefined
+    register: loggedin
+    tags:
+      - always
+
+  - name: Fetch storages
+    ovirt_storage_domains_facts:
+      auth: "{{ ovirt_auth }}"
+    tags:
+      - ovirt-template-image
+
+  - name: Find data domain
+    set_fact:
+      disk_storage_domain: "{{ ovirt_storage_domains|json_query(the_query)|list|first}}"
+    vars:
+      the_query: "[?type=='data']"
+    tags:
+      - ovirt-template-image
+
+  - name: Import templates from glance
+    ovirt_templates:
+      auth: "{{ ovirt_auth }}"
+      state: imported
+      name: "{{ item.name }}"
+      image_provider: "{{ item.image_provider }}"
+      image_disk: "{{ item.image_disk }}"
+      storage_domain: "{{ item.storage_domain | default(disk_storage_domain.name) }}"
+      cluster: "{{ item.cluster }}"
+      fetch_nested: True
+    register: imported_templates
+    with_items:
+      - "{{ external_templates | default([]) }} "
+
+  always:
+    - name: Logout from oVirt
+      ovirt_auth:
+        state: absent
+        ovirt_auth: "{{ ovirt_auth }}"
+      when: not loggedin.skipped | default(false)
+      tags:
+        - always
