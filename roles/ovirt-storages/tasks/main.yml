@@ -84,6 +84,7 @@
     password: "{{ storages[item.0.name][item.0.storage.type].password | default(omit) }}"
     port: "{{ storages[item.0.name][item.0.storage.type].port | default(omit) }}"
     target: "{{ storages[item.0.name][item.0.storage.type].target | default(omit) }}"
+    type: "{{ item.0.storage.type }}"
     force: true
   with_subelements:
     - "{{ ovirt_storage_domains | default([]) }}"
