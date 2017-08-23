@@ -59,8 +59,8 @@ Possible `profile` options are `development` and `production`, their default val
 
 | Parameter                         | Value              |
 |-----------------------------------|--------------------|
-| ballooning                        | false              |
-| ksm                               | false              |
+| ballooning                        | true               |
+| ksm                               | true               |
 | host_reason                       | true               |
 | vm_reason                         | true               |
 | memory_policy                     | disabled           |

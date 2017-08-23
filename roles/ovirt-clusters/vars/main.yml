@@ -12,8 +12,8 @@ profiles:
 
   production:
      description: Production cluster
-     ballooning: false
-     ksm: false
+     ballooning: true
+     ksm: true
      host_reason: true
      vm_reason: true
      memory_policy: disabled
