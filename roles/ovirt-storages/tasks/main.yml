@@ -69,25 +69,26 @@
   tags:
     - storages
 
-- name: Validate connections of storages
-  ovirt_storage_connections:
-    auth: "{{ ovirt_auth }}"
-    id: "{{ item.1.id[0] }}"
-    storage: "{{ item.0.name }}"
-    address: "{{ storages[item.0.name][item.0.storage.type].address | default(omit) }}"
-    path: "{{ storages[item.0.name][item.0.storage.type].path | default(omit) }}"
-    nfs_timeout: "{{ storages[item.0.name][item.0.storage.type].timeout | default(omit) }}"
-    nfs_version: "{{ storages[item.0.name][item.0.storage.type].version | default(omit) }}"
-    nfs_retrans: "{{ storages[item.0.name][item.0.storage.type].retrans | default(omit) }}"
-    mount_options: "{{ storages[item.0.name][item.0.storage.type].mount_options | default(omit) }}"
-    username: "{{ storages[item.0.name][item.0.storage.type].username | default(omit) }}"
-    password: "{{ storages[item.0.name][item.0.storage.type].password | default(omit) }}"
-    port: "{{ storages[item.0.name][item.0.storage.type].port | default(omit) }}"
-    target: "{{ storages[item.0.name][item.0.storage.type].target | default(omit) }}"
-    force: true
-  with_subelements:
-    - "{{ ovirt_storage_domains | default([]) }}"
-    - storage_connections
-  when: item.0.name in storages
-  tags:
-    - storages
+#- name: Validate connections of storages
+#  ovirt_storage_connections:
+#    auth: "{{ ovirt_auth }}"
+#    id: "{{ item.1.id[0] }}"
+#    storage: "{{ item.0.name }}"
+#    address: "{{ storages[item.0.name][item.0.storage.type].address | default(omit) }}"
+#    path: "{{ storages[item.0.name][item.0.storage.type].path | default(omit) }}"
+#    nfs_timeout: "{{ storages[item.0.name][item.0.storage.type].timeout | default(omit) }}"
+#    nfs_version: "{{ storages[item.0.name][item.0.storage.type].version | default(omit) }}"
+#    nfs_retrans: "{{ storages[item.0.name][item.0.storage.type].retrans | default(omit) }}"
+#    mount_options: "{{ storages[item.0.name][item.0.storage.type].mount_options | default(omit) }}"
+#    username: "{{ storages[item.0.name][item.0.storage.type].username | default(omit) }}"
+#    password: "{{ storages[item.0.name][item.0.storage.type].password | default(omit) }}"
+#    port: "{{ storages[item.0.name][item.0.storage.type].port | default(omit) }}"
+#    target: "{{ storages[item.0.name][item.0.storage.type].target | default(omit) }}"
+#    type: "{{ item.0.storage.type }}"
+#    force: true
+#  with_subelements:
+#    - "{{ ovirt_storage_domains | default([]) }}"
+#    - storage_connections
+#  when: item.0.name in storages
+#  tags:
+#    - storages
