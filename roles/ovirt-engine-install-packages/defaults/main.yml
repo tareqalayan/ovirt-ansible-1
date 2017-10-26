@@ -1,0 +1,6 @@
+---
+# default vars for ovirt-engine-install-packages
+ovirt_engine_install_packages_package_list:
+  - ovirt-engine
+  - ovirt-engine-dwh-setup
+  - ovirt-engine-extension-aaa-ldap

@@ -1,0 +1,6 @@
+---
+- name: Install packages required for oVirt Engine deployment
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ ovirt_engine_install_packages_package_list }}"
